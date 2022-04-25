@@ -1,0 +1,18 @@
+
+.close {
+    background-color: transparent;
+    color: gray;
+    border: none;
+    border-radius: 50%;
+    font-size: 30px;
+    display: flex;
+    position: absolute; 
+    top: 0; 
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.close:focus{
+    outline: none;
+}
