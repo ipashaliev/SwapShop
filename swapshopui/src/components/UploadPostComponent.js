@@ -4,6 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import PostService from "../services/PostService";
 import HeaderComponent from "./HeaderComponent";
 import { Navigate } from "react-router";
+import SideNavComponent from "./SideNavComponent";
 
 
 class UploadPostComponent extends Component {
@@ -36,6 +37,7 @@ class UploadPostComponent extends Component {
         console.log("post => "+ JSON.stringify(post));
 
         if(localStorage.getItem("user") !== null){
+            document.getElementById("required").innerHTML = "You must add a title";
             PostService.uploadPost(post);
             this.setState({navigate: true});
         }else{
@@ -50,11 +52,17 @@ class UploadPostComponent extends Component {
           return <Navigate to="/posts" push={true} />;
         }
         return ( 
-            <div className="container">
+            <div>
                 <HeaderComponent/>
-                <h1 class="text-center">Upload post</h1>
-                    <div class="container mt-5 mb-5 d-flex justify-content-center">
-                            <div class="card px-1 py-4">
+                <div className={style.board}>
+                    <div>
+                        <SideNavComponent/>
+                    </div>
+                    <div>
+                        <h1 class="text-center pt-3">Upload post</h1>
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                            <div class="card mt-4">
                                 <div class="card-body">
                                     <Link to={"/posts"}>
                                         <button type="button" title="cancel" className={style.close}>
@@ -66,6 +74,7 @@ class UploadPostComponent extends Component {
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label for="name">Post title</label>
+                                                <p id="required" className="text-danger">* Required</p>
                                                 <input class="form-control" type="text" placeholder="Item name" onChange={this.changeTitleHandler}/> 
                                             </div>
                                         </div>
@@ -74,7 +83,7 @@ class UploadPostComponent extends Component {
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <div class="input-group"> 
-                                                    <textarea class="form-control" type="text" placeholder="Description" rows={3} onChange={this.changeBodyHandler}/> 
+                                                    <textarea class="form-control" type="text" placeholder="Description" rows={6} onChange={this.changeBodyHandler}/> 
                                                 </div>
                                             </div>
                                         </div>
@@ -88,15 +97,16 @@ class UploadPostComponent extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class=" d-flex flex-column text-center px-5 mt-3 mb-3">
-                                         <small class="agree-text">Your post will be visible by everyone on the main page</small>
-                                         <br/>
-                                         <button class="btn btn-primary btn-block confirm-button" onClick={this.uploadPost}>Share post</button>
+                                    <div class=" d-flex flex-column text-center px-5 mt-2 mb-2">
+                                            <small class="agree-text">Your post will be visible by everyone on the main page</small>
+                                            <br/>
+                                            <button class="btn btn-primary btn-block confirm-button" onClick={this.uploadPost}>Share post</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                </div>
+            </div>
         );
     }
 }

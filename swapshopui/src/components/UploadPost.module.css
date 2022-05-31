@@ -1,4 +1,8 @@
 
+body{
+    background-color: #f0f0f0;
+}
+
 .close {
     background-color: transparent;
     color: gray;
@@ -15,4 +19,87 @@
 }
 .close:focus{
     outline: none;
+}
+
+.board{
+    margin-top: 90px;
+}
+
+.content{
+    margin-left: 250px;
+    margin-right: 50px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+.sidenav {
+    vertical-align: top;
+    margin: 0;
+    padding: 0;
+    padding-top: 30px;
+    width: 200px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    background-color: white;
+    box-shadow: 0 0px 12px 0 rgba(0,0,0,0.3);
+}
+.sidenav li {
+    display: block;
+    font-size: 20px;
+    color: black;
+    padding: 12px;
+    text-decoration: none;
+}
+.sidenav li.active {
+    background-color: #04AA6D;
+    color: white;
+}
+.sidenav li:hover:not(.active) {
+    background-color: #555;
+    color: white;
+}
+.icon{
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 7px;
+    width: 24px;
+    height: 24px;
+}
+@media screen and (max-width: 700px) {
+    .sidenav {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .sidenav li {float: left;}
+    div.content {margin-left: 0;}
+  }
+@media screen and (max-width: 600px) {
+    .sidenav li {
+      text-align: center;
+      float: none;
+    }
+}
+.postCard{
+    background-color: white;
+    margin-top: 30px;
+    margin-left: 7%;
+    margin-right: 10%;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 6px 12px 6px rgba(0,0,0,0.2);
+}
+.comments{
+    overflow: auto;
+    max-height: 200px;
+    background-color: #fafafa;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.btn{
+    display: inline-block;
+    vertical-align: middle;
+    width: 25px;
+    height: 35px;
 }

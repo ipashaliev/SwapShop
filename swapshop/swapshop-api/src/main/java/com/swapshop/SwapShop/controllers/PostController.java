@@ -42,6 +42,15 @@ public class PostController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/favorites")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<?> getAllFavorites(){
+        String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userService.getUser(currentUsername);
+        Post[] posts =  currentUser.getFavorites().toArray(new Post[0]);
+        return ResponseEntity.ok(posts);
+    }
+
     @PostMapping("/upload")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> uploadPost(@RequestBody Post post) {
