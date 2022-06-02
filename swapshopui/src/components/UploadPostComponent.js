@@ -37,9 +37,13 @@ class UploadPostComponent extends Component {
         console.log("post => "+ JSON.stringify(post));
 
         if(localStorage.getItem("user") !== null){
-            document.getElementById("required").innerHTML = "You must add a title";
-            PostService.uploadPost(post);
-            this.setState({navigate: true});
+            if (this.state.title === "") {
+                document.getElementById("required").innerHTML = "You must add a title";
+            }else{
+                PostService.uploadPost(post);
+                this.setState({navigate: true});
+            }
+            
         }else{
             alert("Unauthorized");
         }

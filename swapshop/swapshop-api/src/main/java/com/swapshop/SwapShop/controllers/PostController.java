@@ -154,7 +154,7 @@ public class PostController {
         return ResponseEntity.ok("Delete unsuccessful");
     }
 
-    @PostMapping(value = "{id}/comment")
+    @PostMapping(value = "/comment")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> postComment(@RequestBody Comment comment, Long id) {
         Post post = postService.findPost(id);
@@ -182,7 +182,7 @@ public class PostController {
     public ResponseEntity<?> getComments(@PathVariable Long postId){
         List<Comment> result =  commentService.getComments(postId);
         if(result.isEmpty()){
-            return ResponseEntity.ok("No comments found");
+            return ResponseEntity.ok("");
         }
         return ResponseEntity.ok(result);
     }
