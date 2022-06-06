@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class Post {
     private User user;
 
 
+    @Transient
     @OneToOne
     private Image image;
 

@@ -52,6 +52,7 @@ class HeaderComponent extends Component {
                             <button class="btn btn-secondary" onClick={this.logOutUser}>Log out</button>
                         </div>
                     </nav>
+                    
                 </header>
             </div>
         );

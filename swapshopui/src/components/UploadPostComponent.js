@@ -15,21 +15,27 @@ class UploadPostComponent extends Component {
             title: "",
             body: "",
             username: "",
-            navigate: false
-            //dateCreated: null,
-            //active: false
+            navigate: false,
+            currentPost: [],
+            postExists: false,
         }
         this.changeTitleHandler = this.changeTitleHandler.bind(this);
         this.changeBodyHandler = this.changeBodyHandler.bind(this);
         this.uploadPost = this.uploadPost.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
-    
+    componentDidMount(){
+        this.setState({postExists: false});
+    }
 
     changeTitleHandler = (e) => {
-        this.setState({title: e.target.value});
+        this.setState({title: e.target.value});        
     }
     changeBodyHandler = (e) => {
         this.setState({body: e.target.value});
+        PostService.getAllPosts().then((res) => {
+            this.setState({currentPost: res.data[0]}, () => console.log());
+        });
     }
     uploadPost = (e) => {
         e.preventDefault();
@@ -40,14 +46,31 @@ class UploadPostComponent extends Component {
             if (this.state.title === "") {
                 document.getElementById("required").innerHTML = "You must add a title";
             }else{
-                PostService.uploadPost(post);
-                this.setState({navigate: true});
+                if (!this.state.postExists) {
+                    PostService.uploadPost(post);
+                    this.setState({postExists: true});
+                }else{
+                    return;
+                }
+                this.loadUploadImage();
             }
             
         }else{
             alert("Unauthorized");
         }
         
+    }
+    uploadImage = (e, post) => {
+        e.preventDefault();
+        PostService.uploadImage(e.target.files[0], post.id+1)
+        console.log(e.target.files)
+        console.log(post.id)
+    }
+    loadUploadImage(){
+        document.getElementById('imageSection').className = 'd-block';
+        PostService.getAllPosts().then((res) => {
+            this.setState({currentPost: res.data[0]}, () => console.log());
+        });
     }
 
     render() { 
@@ -94,17 +117,18 @@ class UploadPostComponent extends Component {
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <div class="form-group">
+                                            <button class="btn btn-success mt-1 d-flex ml-auto p-2" onClick={this.uploadPost}>Add image</button>
+                                            <div className='d-none' id='imageSection'>
                                                 <label for="name">Add an image</label>
                                                 <br/>
-                                                <input type="file" id="img" name="img" accept="image/*"/>
+                                                <input type="file" id="img" name="img" accept="image/*" onChange={(e)=>{this.uploadImage(e, this.state.currentPost)}}/>
                                             </div>
                                         </div>
                                     </div>
                                     <div class=" d-flex flex-column text-center px-5 mt-2 mb-2">
                                             <small class="agree-text">Your post will be visible by everyone on the main page</small>
                                             <br/>
-                                            <button class="btn btn-primary btn-block confirm-button" onClick={this.uploadPost}>Share post</button>
+                                            <button class="btn btn-primary btn-block confirm-button" onClick={(e) => {this.setState({navigate: true}); this.uploadPost(e)}} >Share post</button>
                                     </div>
                                 </div>
                             </div>

@@ -1,8 +1,10 @@
 package com.swapshop.SwapShop.controllers;
 
 import com.swapshop.SwapShop.entities.Comment;
+import com.swapshop.SwapShop.entities.Image;
 import com.swapshop.SwapShop.entities.Post;
 import com.swapshop.SwapShop.entities.User;
+import com.swapshop.SwapShop.repositories.ImageRepository;
 import com.swapshop.SwapShop.services.CommentService;
 import com.swapshop.SwapShop.services.ImageService;
 import com.swapshop.SwapShop.services.PostService;
@@ -64,21 +66,6 @@ public class PostController {
             return ResponseEntity.ok("Post published successfully!");
         }
         return ResponseEntity.badRequest().body("Post cannot be blank.");
-    }
-
-    @PostMapping("/upload/image")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<?> uploadImage(@RequestBody MultipartFile file, Long id) {
-        Post post = postService.findPost(id);
-        if(file != null){
-            try {
-                imageService.save(file, post);
-            }catch (IOException e) {
-                return null;
-            }
-            return ResponseEntity.ok("Image uploaded successfully!");
-        }
-        return ResponseEntity.badRequest().body("File cannot be null.");
     }
 
 
@@ -177,6 +164,8 @@ public class PostController {
          else
              return ResponseEntity.ok("Cannot remove comment.");
     }
+
+
 
     @GetMapping("/comments/{postId}")
     public ResponseEntity<?> getComments(@PathVariable Long postId){

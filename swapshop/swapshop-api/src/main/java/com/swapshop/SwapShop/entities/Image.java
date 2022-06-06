@@ -14,23 +14,28 @@ public class Image {
 
     private String name;
 
-    private String contentType;
-
-    private Long size;
+    private String url;
 
     @OneToOne
     private Post post;
 
-    @Lob
-    private byte[] data;
+    public Image(){
 
+    }
+
+    public Image(String name, String url, Post post) {
+        this.name = name;
+        this.url = url;
+        this.post = post;
+    }
+
+    public Image(String filename, String url) {
+        this.name = filename;
+        this.url = url;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -41,34 +46,19 @@ public class Image {
         this.name = name;
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getUrl() {
+        return url;
     }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
     public Post getPost() {
         return post;
     }
 
     public void setPost(Post post) {
         this.post = post;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
     }
 }
