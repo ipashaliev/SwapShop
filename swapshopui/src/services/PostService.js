@@ -15,6 +15,9 @@ class PostService {
     getPostsByUser(username){
         return axios.get(USER_API_URL + "post/postsby/"+ username, username, {headers: authHeader()});
     }
+    getPostsByTitle(title){
+        return axios.get(USER_API_URL + "post/posts/"+title, title, {headers: authHeader()});
+    }
     uploadPost(post){
         return axios.post(USER_API_URL + "post/upload", post, {headers: authHeader()});
     }

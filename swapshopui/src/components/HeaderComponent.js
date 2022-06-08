@@ -4,6 +4,8 @@ import { Navigate } from "react-router";
 import logo from "../assets/logo.jpg"
 import style from "./UploadPost.module.css";
 import AuthService from "../services/AuthService";
+import PostService from "../services/PostService";
+import PostsListComponent from "./PostsListComponent";
 
 
 class HeaderComponent extends Component {
@@ -11,10 +13,13 @@ class HeaderComponent extends Component {
         super(props);
         this.state = {
             currentUser: "",
-            navigate: false
+            navigate: false,
+            posts: [],
+            text: ""
         }
         this.logOutUser = this.logOutUser.bind(this);
-
+        this.searchPosts = this.searchPosts.bind(this);
+        this.changeTitleHandler = this.changeTitleHandler.bind(this);
     }
 
     logOutUser = (e) => {
@@ -32,7 +37,23 @@ class HeaderComponent extends Component {
             this.setState({currentUser: AuthService.getCurrentUser().username})
         }
     }
-    
+
+    changeTitleHandler = (e) => {
+        e.preventDefault();
+        this.setState({text: e.target.value}); 
+        console.log(this.state.text)       
+    }
+
+    searchPosts = (e, title) => {
+        e.preventDefault();
+        PostService.getPostsByTitle(title).then((res) => {
+            this.setState({posts: res.data}, () => console.log(this.state.posts));
+        });
+        
+        window.PostsListComponent.searchPosts(e, this.state.posts);
+        
+    }
+
     render() {
         const {navigate} = this.state;
         if (navigate) {
@@ -44,8 +65,8 @@ class HeaderComponent extends Component {
                     <nav class=" fixed-top bg-white navbar navbar-light justify-content-between">
                         <a href="http://localhost:3000/posts"><img className="ml-3" src={logo} height={75} width={145}></img></a>
                         <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={this.changeTitleHandler}/>
+                            <button class="btn btn-outline-success"onClick={(e) => {this.searchPosts(e, this.state.text); console.log()}}>Search</button>
                         </form>
                         <div>
                             <label className="mr-3">{this.state.currentUser}</label>

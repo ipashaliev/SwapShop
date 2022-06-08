@@ -5,6 +5,7 @@ import com.swapshop.SwapShop.entities.Image;
 import com.swapshop.SwapShop.entities.Post;
 import com.swapshop.SwapShop.entities.User;
 import com.swapshop.SwapShop.repositories.ImageRepository;
+import com.swapshop.SwapShop.repositories.PostRepository;
 import com.swapshop.SwapShop.services.CommentService;
 import com.swapshop.SwapShop.services.ImageService;
 import com.swapshop.SwapShop.services.PostService;
@@ -83,7 +84,7 @@ public class PostController {
     public ResponseEntity<?> postsByTitle(@PathVariable String title){
         List<Post> result =  postService.findByTitle(title);
         if (result.isEmpty()){
-            return ResponseEntity.ok("No posts found");
+            return ResponseEntity.ok("");
         }
         return ResponseEntity.ok(result);
     }
